@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloudfitness.mapper.CourseMapper">
+    
+    <resultMap id="BaseResultMap" type="com.cloudfitness.entity.Course">
+        <id column="course_id" property="courseId"/>
+        <result column="course_name" property="courseName"/>
+        <result column="instructor_id" property="instructorId"/>
+        <result column="schedule" property="schedule"/>
+        <result column="capacity" property="capacity"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="selectUpcomingCourses" resultMap="BaseResultMap">
+        SELECT * FROM courses
+        WHERE schedule &gt;= #{startTime}
+        AND status IN ('upcoming', 'ongoing')
+        ORDER BY schedule ASC
+    </select>
+
+    <select id="selectByInstructorId" resultMap="BaseResultMap">
+        SELECT * FROM courses
+        WHERE instructor_id = #{instructorId}
+        ORDER BY schedule DESC
+    </select>
+
+    <select id="selectAdminCourses" resultMap="BaseResultMap">
+        SELECT * FROM courses
+        WHERE 1=1
+        <if test="courseName != null and courseName != ''">
+            AND course_name LIKE CONCAT('%', #{courseName}, '%')
+        </if>
+        <if test="instructorId != null">
+            AND instructor_id = #{instructorId}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND DATE(schedule) &gt;= #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND DATE(schedule) &lt;= #{endDate}
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        ORDER BY schedule DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="countAdminCourses" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM courses
+        WHERE 1=1
+        <if test="courseName != null and courseName != ''">
+            AND course_name LIKE CONCAT('%', #{courseName}, '%')
+        </if>
+        <if test="instructorId != null">
+            AND instructor_id = #{instructorId}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND DATE(schedule) &gt;= #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND DATE(schedule) &lt;= #{endDate}
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+    </select>
+
+</mapper>
+

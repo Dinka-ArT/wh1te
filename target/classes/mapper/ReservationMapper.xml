@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloudfitness.mapper.ReservationMapper">
+    
+    <resultMap id="BaseResultMap" type="com.cloudfitness.entity.Reservation">
+        <id column="reservation_id" property="reservationId"/>
+        <result column="user_id" property="userId"/>
+        <result column="course_id" property="courseId"/>
+        <result column="reservation_date" property="reservationDate"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT * FROM reservations
+        WHERE user_id = #{userId}
+        ORDER BY reservation_date DESC
+    </select>
+
+    <select id="selectByCourseId" resultMap="BaseResultMap">
+        SELECT * FROM reservations
+        WHERE course_id = #{courseId}
+        ORDER BY reservation_date DESC
+    </select>
+
+    <select id="selectByUserIdAndCourseId" resultMap="BaseResultMap">
+        SELECT * FROM reservations
+        WHERE user_id = #{userId} AND course_id = #{courseId}
+        LIMIT 1
+    </select>
+
+    <select id="countByCourseId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM reservations
+        WHERE course_id = #{courseId}
+        AND status NOT IN ('cancelled')
+    </select>
+
+    <select id="selectAdminReservations" resultMap="BaseResultMap">
+        SELECT r.* FROM reservations r
+        WHERE 1=1
+        <if test="userId != null">
+            AND r.user_id = #{userId}
+        </if>
+        <if test="courseId != null">
+            AND r.course_id = #{courseId}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND DATE(r.reservation_date) &gt;= #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND DATE(r.reservation_date) &lt;= #{endDate}
+        </if>
+        <if test="status != null and status != ''">
+            AND r.status = #{status}
+        </if>
+        ORDER BY r.reservation_date DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="countAdminReservations" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM reservations r
+        WHERE 1=1
+        <if test="userId != null">
+            AND r.user_id = #{userId}
+        </if>
+        <if test="courseId != null">
+            AND r.course_id = #{courseId}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND DATE(r.reservation_date) &gt;= #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND DATE(r.reservation_date) &lt;= #{endDate}
+        </if>
+        <if test="status != null and status != ''">
+            AND r.status = #{status}
+        </if>
+    </select>
+
+</mapper>
+

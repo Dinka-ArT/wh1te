@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloudfitness.mapper.LockerMapper">
+    
+    <resultMap id="BaseResultMap" type="com.cloudfitness.entity.Locker">
+        <id column="locker_id" property="lockerId"/>
+        <result column="locker_number" property="lockerNumber"/>
+        <result column="user_id" property="userId"/>
+        <result column="start_date" property="startDate"/>
+        <result column="end_date" property="endDate"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="selectByLockerNumber" resultMap="BaseResultMap">
+        SELECT * FROM lockers
+        WHERE locker_number = #{lockerNumber}
+        LIMIT 1
+    </select>
+
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT * FROM lockers
+        WHERE user_id = #{userId}
+        ORDER BY start_date DESC
+    </select>
+
+    <select id="selectAdminLockers" resultMap="BaseResultMap">
+        SELECT * FROM lockers
+        WHERE 1=1
+        <if test="lockerNumber != null">
+            AND locker_number = #{lockerNumber}
+        </if>
+        <if test="userId != null">
+            AND user_id = #{userId}
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        ORDER BY locker_number ASC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="countAdminLockers" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM lockers
+        WHERE 1=1
+        <if test="lockerNumber != null">
+            AND locker_number = #{lockerNumber}
+        </if>
+        <if test="userId != null">
+            AND user_id = #{userId}
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+    </select>
+
+</mapper>
+

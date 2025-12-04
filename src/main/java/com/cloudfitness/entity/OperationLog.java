@@ -1,0 +1,21 @@
+package com.cloudfitness.entity;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import java.time.LocalDateTime;
+
+@Data
+@TableName("operation_logs")
+public class OperationLog {
+    @TableId(type = IdType.AUTO)
+    private Integer logId;
+    private Integer userId;
+    private String username;
+    private String operationType;
+    private String operationContent;
+    private String ipAddress;
+    private LocalDateTime createdAt;
+}
+

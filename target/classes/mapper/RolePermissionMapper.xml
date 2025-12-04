@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloudfitness.mapper.RolePermissionMapper">
+    
+    <resultMap id="BaseResultMap" type="com.cloudfitness.entity.RolePermission">
+        <result column="role_id" property="roleId"/>
+        <result column="permission_id" property="permissionId"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <select id="selectPermissionIdsByRoleId" resultType="java.lang.Integer">
+        SELECT permission_id FROM role_permissions
+        WHERE role_id = #{roleId}
+    </select>
+
+    <delete id="deleteByRoleId">
+        DELETE FROM role_permissions
+        WHERE role_id = #{roleId}
+    </delete>
+
+</mapper>
+
