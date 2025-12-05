@@ -31,8 +31,8 @@ public class AdminDashboardController {
     }
 
     @GetMapping("/course-reservations")
-    public Result<Map<String, Object>> getCourseReservations() {
-        return Result.success(adminDashboardService.getCourseReservations());
+    public Result<Map<String, Object>> getCourseReservations(@RequestParam(required = false) Integer days) {
+        return Result.success(adminDashboardService.getCourseReservations(days));
     }
 
     @GetMapping("/attendance-rate")

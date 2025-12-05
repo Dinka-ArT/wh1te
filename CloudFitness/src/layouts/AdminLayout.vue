@@ -159,7 +159,7 @@ const handleCommand = (command) => {
       type: 'warning'
     }).then(() => {
       userStore.logout()
-      router.push('/login')
+      router.replace('/login')
     }).catch(() => {})
   } else if (command === 'profile') {
     router.push('/profile')
