@@ -346,127 +346,127 @@ const loadCharts = async () => {
       const rows = userGrowthResponse.data || userGrowthResponse.list
       const dates = rows.map(item => item.date || item.day || item.stat_date)
       const userCounts = rows.map(item => item.count ?? item.total ?? 0)
-      
-      userGrowthChartData.value = {
-        tooltip: {
-          trigger: 'axis'
-        },
-        xAxis: {
-          type: 'category',
-          data: dates.map(d => d.split('-')[2])
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            name: '用户数',
-            data: userCounts,
-            type: 'line',
-            smooth: true,
-            itemStyle: {
-              color: '#667eea'
-            },
-            areaStyle: {
-              color: {
-                type: 'linear',
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                colorStops: [
-                  { offset: 0, color: 'rgba(102, 126, 234, 0.3)' },
-                  { offset: 1, color: 'rgba(102, 126, 234, 0.1)' }
-                ]
-              }
-            }
-          }
-        ]
-      }
-    }
 
-    // 课程预约统计
+  userGrowthChartData.value = {
+    tooltip: {
+      trigger: 'axis'
+    },
+    xAxis: {
+      type: 'category',
+      data: dates.map(d => d.split('-')[2])
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        name: '用户数',
+        data: userCounts,
+        type: 'line',
+        smooth: true,
+        itemStyle: {
+          color: '#667eea'
+        },
+        areaStyle: {
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              { offset: 0, color: 'rgba(102, 126, 234, 0.3)' },
+              { offset: 1, color: 'rgba(102, 126, 234, 0.1)' }
+            ]
+          }
+        }
+      }
+    ]
+      }
+  }
+
+  // 课程预约统计
     const courseReservationResponse = await getAdminDashboardCourseReservations()
     if (courseReservationResponse && (courseReservationResponse.data || courseReservationResponse.list)) {
       const rows = courseReservationResponse.data || courseReservationResponse.list
       const courseNames = rows.map(item => item.course_name || item.courseName)
       const reservationCounts = rows.map(item => item.count ?? item.total ?? 0)
       
-      courseReservationChartData.value = {
-        tooltip: {
-          trigger: 'axis'
-        },
-        xAxis: {
-          type: 'category',
+  courseReservationChartData.value = {
+    tooltip: {
+      trigger: 'axis'
+    },
+    xAxis: {
+      type: 'category',
           data: courseNames
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            name: '预约数',
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        name: '预约数',
             data: reservationCounts,
-            type: 'bar',
-            itemStyle: {
-              color: '#67c23a'
-            }
-          }
-        ]
+        type: 'bar',
+        itemStyle: {
+          color: '#67c23a'
+        }
       }
-    }
+    ]
+      }
+  }
 
-    // 签到出勤率
+  // 签到出勤率
     const attendanceRateResponse = await getAdminDashboardAttendanceRate({ days: 7 })
     if (attendanceRateResponse && (attendanceRateResponse.data || attendanceRateResponse.list)) {
       const rows = attendanceRateResponse.data || attendanceRateResponse.list
       const attendanceDates = rows.map(item => item.date || item.day || item.stat_date)
       const attendanceRates = rows.map(item => item.rate ?? item.value ?? 0)
-      
-      attendanceRateChartData.value = {
-        tooltip: {
-          trigger: 'axis',
-          formatter: '{b}<br/>{a}: {c}%'
-        },
-        xAxis: {
-          type: 'category',
-          data: attendanceDates.map(d => d.split('-')[2])
-        },
-        yAxis: {
-          type: 'value',
-          max: 100,
-          axisLabel: {
-            formatter: '{value}%'
-          }
-        },
-        series: [
-          {
-            name: '出勤率',
-            data: attendanceRates,
-            type: 'line',
-            smooth: true,
-            itemStyle: {
-              color: '#409eff'
-            },
-            areaStyle: {
-              color: {
-                type: 'linear',
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                colorStops: [
-                  { offset: 0, color: 'rgba(64, 158, 255, 0.3)' },
-                  { offset: 1, color: 'rgba(64, 158, 255, 0.1)' }
-                ]
-              }
-            }
-          }
-        ]
-      }
-    }
 
-    // 会员卡类型分布
+  attendanceRateChartData.value = {
+    tooltip: {
+      trigger: 'axis',
+      formatter: '{b}<br/>{a}: {c}%'
+    },
+    xAxis: {
+      type: 'category',
+          data: attendanceDates.map(d => d.split('-')[2])
+    },
+    yAxis: {
+      type: 'value',
+      max: 100,
+      axisLabel: {
+        formatter: '{value}%'
+      }
+    },
+    series: [
+      {
+        name: '出勤率',
+        data: attendanceRates,
+        type: 'line',
+        smooth: true,
+        itemStyle: {
+          color: '#409eff'
+        },
+        areaStyle: {
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              { offset: 0, color: 'rgba(64, 158, 255, 0.3)' },
+              { offset: 1, color: 'rgba(64, 158, 255, 0.1)' }
+            ]
+          }
+        }
+      }
+    ]
+      }
+  }
+
+  // 会员卡类型分布
     const membershipDistributionResponse = await getAdminDashboardMembershipDistribution()
     if (membershipDistributionResponse && (membershipDistributionResponse.data || membershipDistributionResponse.list)) {
       const rows = membershipDistributionResponse.data || membershipDistributionResponse.list
@@ -479,32 +479,32 @@ const loadCharts = async () => {
           : '其他'
       }))
       
-      membershipDistributionChartData.value = {
-        tooltip: {
-          trigger: 'item'
-        },
-        legend: {
-          orient: 'vertical',
-          left: 'left'
-        },
-        series: [
-          {
-            type: 'pie',
-            radius: '60%',
+  membershipDistributionChartData.value = {
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      orient: 'vertical',
+      left: 'left'
+    },
+    series: [
+      {
+        type: 'pie',
+        radius: '60%',
             data: membershipData,
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
           }
-        ]
+        }
       }
-    }
+    ]
+      }
+  }
 
-    // 课程类型分布
+  // 课程类型分布
     const courseDistributionResponse = await getAdminDashboardCourseDistribution()
     if (courseDistributionResponse && (courseDistributionResponse.data || courseDistributionResponse.list)) {
       const rows = courseDistributionResponse.data || courseDistributionResponse.list
@@ -513,28 +513,28 @@ const loadCharts = async () => {
         name: item.course_name || item.courseName
       }))
       
-      courseDistributionChartData.value = {
-        tooltip: {
-          trigger: 'item'
-        },
-        legend: {
-          orient: 'vertical',
-          left: 'left'
-        },
-        series: [
-          {
-            type: 'pie',
-            radius: '60%',
+  courseDistributionChartData.value = {
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      orient: 'vertical',
+      left: 'left'
+    },
+    series: [
+      {
+        type: 'pie',
+        radius: '60%',
             data: courseData,
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
           }
-        ]
+        }
+      }
+    ]
       }
     }
   } catch (error) {
