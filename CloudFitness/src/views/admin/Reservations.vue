@@ -353,6 +353,22 @@ const formData = reactive({
 const users = ref([])
 const courses = ref([])
 
+// 兼容后端返回的用户字段（userId/phoneNumber），统一为数字 user_id，避免下拉选择失效
+const normalizeUserOption = (item) => ({
+  ...item,
+  user_id: Number(item.user_id ?? item.userId),
+  username: item.username,
+  phone_number: item.phone_number ?? item.phoneNumber
+})
+
+// 兼容后端返回的课程字段（courseId），统一为数字 course_id
+const normalizeCourseOption = (item) => ({
+  ...item,
+  course_id: Number(item.course_id ?? item.courseId),
+  course_name: item.course_name,
+  schedule: item.schedule
+})
+
 const formRules = {
   user_id: [
     { required: true, message: '请选择用户', trigger: 'change' }
@@ -454,8 +470,8 @@ const handleEdit = (row) => {
   isEdit.value = true
   Object.assign(formData, {
     reservation_id: row.reservation_id,
-    user_id: row.user_id,
-    course_id: row.course_id,
+    user_id: row.user_id ? Number(row.user_id) : null,
+    course_id: row.course_id ? Number(row.course_id) : null,
     status: row.status
   })
   formVisible.value = true
@@ -581,8 +597,8 @@ const loadUsersAndCourses = async () => {
       getAllMembers(),
       getAllCourses()
     ])
-    users.value = usersRes.list || []
-    courses.value = coursesRes.list || []
+    users.value = (usersRes.list || []).map(normalizeUserOption)
+    courses.value = (coursesRes.list || []).map(normalizeCourseOption)
   } catch (error) {
     console.error('加载用户和课程列表失败', error)
   }

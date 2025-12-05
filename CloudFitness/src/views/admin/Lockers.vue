@@ -380,6 +380,14 @@ const assignForm = reactive({
 
 const users = ref([])
 
+// 兼容后端返回的用户字段（userId/phoneNumber），统一为数字 user_id，避免下拉选择失效
+const normalizeUserOption = (item) => ({
+  ...item,
+  user_id: Number(item.user_id ?? item.userId),
+  username: item.username,
+  phone_number: item.phone_number ?? item.phoneNumber
+})
+
 const formRules = {
   locker_number: [
     { required: true, message: '请输入储物柜编号', trigger: 'blur' },
@@ -478,7 +486,7 @@ const handleEdit = (row) => {
   Object.assign(formData, {
     locker_id: row.locker_id,
     locker_number: row.locker_number,
-    user_id: row.user_id,
+    user_id: row.user_id ? Number(row.user_id) : null,
     start_date: row.start_date || '',
     end_date: row.end_date || ''
   })
@@ -588,7 +596,7 @@ const handlePageChange = (page) => {
 const loadUsers = async () => {
   try {
     const response = await getAllMembers()
-    users.value = response.list || []
+    users.value = (response.list || []).map(normalizeUserOption)
   } catch (error) {
     console.error('加载用户列表失败', error)
   }

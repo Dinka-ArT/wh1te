@@ -28,9 +28,37 @@ public class AdminUserServiceImpl implements AdminUserService {
         Integer offset = (page - 1) * pageSize;
         List<User> users = userMapper.selectMembers(username, phoneNumber, email, startDate, endDate, membershipStatus, offset, pageSize);
         Integer total = userMapper.countMembers(username, phoneNumber, email, startDate, endDate, membershipStatus);
-        
+
+        // 补充会员卡信息（类型、开始/到期时间）以便前端显示
+        List<Map<String, Object>> list = new java.util.ArrayList<>();
+        for (User user : users) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("user_id", user.getUserId());
+            item.put("username", user.getUsername());
+            item.put("phone_number", user.getPhoneNumber());
+            item.put("email", user.getEmail());
+            item.put("role", user.getRole());
+            item.put("status", user.getStatus());
+            item.put("registration_date", user.getRegistrationDate());
+
+            Membership membership = membershipMapper.selectCurrentByUserId(user.getUserId());
+            if (membership == null) {
+                // 若无有效会员卡，尝试取最新一张（过期也返回给前端用于显示）
+                List<Membership> history = membershipMapper.selectByUserId(user.getUserId());
+                if (history != null && !history.isEmpty()) {
+                    membership = history.get(0);
+                }
+            }
+            if (membership != null) {
+                item.put("membership_type", membership.getMembershipType());
+                item.put("start_date", membership.getStartDate());
+                item.put("expiry_date", membership.getExpiryDate());
+            }
+            list.add(item);
+        }
+
         Map<String, Object> result = new HashMap<>();
-        result.put("list", users);
+        result.put("list", list);
         result.put("total", total);
         result.put("page", page);
         result.put("page_size", pageSize);

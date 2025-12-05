@@ -4,6 +4,7 @@ import com.cloudfitness.common.Result;
 import com.cloudfitness.service.AdminReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -30,6 +31,30 @@ public class AdminReservationController {
     public Result<Map<String, Object>> getReservationDetail(@PathVariable("reservation_id") Integer reservationId) {
         Map<String, Object> data = adminReservationService.getReservationDetail(reservationId);
         return Result.success(data);
+    }
+
+    @PutMapping("/{reservation_id}")
+    public Result<Object> updateReservation(@PathVariable("reservation_id") Integer reservationId,
+                                            @RequestBody Map<String, Object> request) {
+        Integer userId = request.get("user_id") instanceof Number ? ((Number) request.get("user_id")).intValue() : null;
+        Integer courseId = request.get("course_id") instanceof Number ? ((Number) request.get("course_id")).intValue() : null;
+        String status = request.get("status") != null ? request.get("status").toString() : null;
+        adminReservationService.updateReservation(reservationId, userId, courseId, status);
+        return Result.success("更新成功", null);
+    }
+
+    @PostMapping
+    public Result<Map<String, Integer>> createReservation(@RequestBody Map<String, Object> request) {
+        Integer userId = request.get("user_id") instanceof Number ? ((Number) request.get("user_id")).intValue() : null;
+        Integer courseId = request.get("course_id") instanceof Number ? ((Number) request.get("course_id")).intValue() : null;
+        String status = request.get("status") != null ? request.get("status").toString() : "pending";
+        if (userId == null || courseId == null) {
+            throw new RuntimeException("user_id 和 course_id 不能为空");
+        }
+        Integer reservationId = adminReservationService.createReservation(userId, courseId, status);
+        Map<String, Integer> data = new HashMap<>();
+        data.put("reservation_id", reservationId);
+        return Result.success("创建成功", data);
     }
 
     @PutMapping("/{reservation_id}/confirm")

@@ -51,6 +51,7 @@ public class AdminCourseServiceImpl implements AdminCourseService {
             }
             item.put("schedule", course.getSchedule());
             item.put("capacity", course.getCapacity());
+            item.put("description", course.getDescription());
             item.put("status", course.getStatus());
             Integer reservedCount = reservationMapper.countByCourseId(course.getCourseId());
             item.put("reserved_count", reservedCount);

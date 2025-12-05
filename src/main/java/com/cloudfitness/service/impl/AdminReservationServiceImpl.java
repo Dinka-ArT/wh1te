@@ -74,6 +74,62 @@ public class AdminReservationServiceImpl implements AdminReservationService {
     }
 
     @Override
+    public Integer createReservation(Integer userId, Integer courseId, String status) {
+        Course course = courseMapper.selectById(courseId);
+        if (course == null) {
+            throw new RuntimeException("课程不存在");
+        }
+        // 允许预约已开课未结束的课程，仅在课程已结束时禁止
+        if ("completed".equalsIgnoreCase(course.getStatus())) {
+            throw new RuntimeException("课程已结束，无法预约");
+        }
+        Reservation existing = reservationMapper.selectByUserIdAndCourseId(userId, courseId);
+        if (existing != null) {
+            throw new RuntimeException("该用户已预约过该课程");
+        }
+        Integer reservedCount = reservationMapper.countByCourseId(courseId);
+        if (reservedCount >= course.getCapacity()) {
+            throw new RuntimeException("课程已满员");
+        }
+
+        Reservation reservation = new Reservation();
+        reservation.setUserId(userId);
+        reservation.setCourseId(courseId);
+        reservation.setReservationDate(LocalDateTime.now());
+        reservation.setStatus(status != null ? status : "pending");
+        reservation.setCreatedAt(LocalDateTime.now());
+        reservation.setUpdatedAt(LocalDateTime.now());
+        reservationMapper.insert(reservation);
+        return reservation.getReservationId();
+    }
+
+    @Override
+    public void updateReservation(Integer reservationId, Integer userId, Integer courseId, String status) {
+        Reservation reservation = reservationMapper.selectById(reservationId);
+        if (reservation == null) {
+            throw new RuntimeException("预约不存在");
+        }
+        if (userId != null) {
+            reservation.setUserId(userId);
+        }
+        if (courseId != null) {
+            Course course = courseMapper.selectById(courseId);
+            if (course == null) {
+                throw new RuntimeException("课程不存在");
+            }
+            if ("completed".equalsIgnoreCase(course.getStatus())) {
+                throw new RuntimeException("课程已结束，无法更换");
+            }
+            reservation.setCourseId(courseId);
+        }
+        if (status != null) {
+            reservation.setStatus(status);
+        }
+        reservation.setUpdatedAt(LocalDateTime.now());
+        reservationMapper.updateById(reservation);
+    }
+
+    @Override
     public Map<String, Object> getReservationDetail(Integer reservationId) {
         Reservation reservation = reservationMapper.selectById(reservationId);
         if (reservation == null) {

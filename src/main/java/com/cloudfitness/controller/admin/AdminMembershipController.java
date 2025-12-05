@@ -4,6 +4,7 @@ import com.cloudfitness.common.Result;
 import com.cloudfitness.service.AdminMembershipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -53,9 +54,13 @@ public class AdminMembershipController {
 
     @PutMapping("/{membership_id}/renew")
     public Result<Map<String, String>> renewMembership(@PathVariable("membership_id") Integer membershipId, @RequestBody Map<String, Object> request) {
-        String expiryDate = (String) request.get("expiry_date");
-        adminMembershipService.renewMembership(membershipId, expiryDate);
-        Map<String, String> data = Map.of("new_expiry_date", expiryDate);
+        String expiryDate = request.get("expiry_date") != null ? request.get("expiry_date").toString() : null;
+        Integer months = request.get("months") instanceof Number ? ((Number) request.get("months")).intValue() : null;
+        adminMembershipService.renewMembership(membershipId, expiryDate, months);
+        Map<String, String> data = new HashMap<>();
+        if (expiryDate != null) {
+            data.put("new_expiry_date", expiryDate);
+        }
         return Result.success("续费成功", data);
     }
 

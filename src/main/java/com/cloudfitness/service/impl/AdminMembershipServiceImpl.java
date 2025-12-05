@@ -142,12 +142,24 @@ public class AdminMembershipServiceImpl implements AdminMembershipService {
     }
 
     @Override
-    public void renewMembership(Integer membershipId, String expiryDate) {
+    public void renewMembership(Integer membershipId, String expiryDate, Integer months) {
         Membership membership = membershipMapper.selectById(membershipId);
         if (membership == null) {
             throw new RuntimeException("会员卡不存在");
         }
-        membership.setExpiryDate(LocalDateTime.parse(expiryDate.replace("Z", "").replace("T", " "), FORMATTER));
+        LocalDateTime base = membership.getExpiryDate() != null ? membership.getExpiryDate() : LocalDateTime.now();
+        if (base.isBefore(LocalDateTime.now())) {
+            base = LocalDateTime.now();
+        }
+        LocalDateTime newExpiry;
+        if (months != null) {
+            newExpiry = base.plusMonths(months);
+        } else if (expiryDate != null) {
+            newExpiry = LocalDateTime.parse(expiryDate.replace("Z", "").replace("T", " "), FORMATTER);
+        } else {
+            throw new RuntimeException("续费参数缺失");
+        }
+        membership.setExpiryDate(newExpiry);
         membership.setUpdatedAt(LocalDateTime.now());
         membershipMapper.updateById(membership);
     }

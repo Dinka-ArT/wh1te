@@ -316,7 +316,22 @@ const loadDashboardData = async () => {
     // 加载统计数据
     const statsResponse = await getAdminDashboard()
     if (statsResponse) {
-      Object.assign(stats.value, statsResponse)
+      // 兼容后端字段命名
+      Object.assign(stats.value, {
+        total_users: statsResponse.total_users ?? statsResponse.totalUsers ?? 0,
+        total_members: statsResponse.total_members ?? statsResponse.totalMembers ?? 0,
+        total_coaches: statsResponse.total_coaches ?? statsResponse.totalCoaches ?? 0,
+        total_admins: statsResponse.total_admins ?? statsResponse.totalAdmins ?? 0,
+        today_new_users: statsResponse.today_new_users ?? statsResponse.todayNewUsers ?? 0,
+        total_courses: statsResponse.total_courses ?? statsResponse.totalCourses ?? 0,
+        today_courses: statsResponse.today_courses ?? statsResponse.todayCourses ?? 0,
+        total_reservations: statsResponse.total_reservations ?? statsResponse.totalReservations ?? 0,
+        today_reservations: statsResponse.today_reservations ?? statsResponse.todayReservations ?? 0,
+        total_attendance: statsResponse.total_attendance ?? statsResponse.totalAttendance ?? 0,
+        today_attendance: statsResponse.today_attendance ?? statsResponse.todayAttendance ?? 0,
+        valid_memberships: statsResponse.valid_memberships ?? statsResponse.validMemberships ?? 0,
+        in_use_lockers: statsResponse.in_use_lockers ?? statsResponse.inUseLockers ?? 0
+      })
     }
   } catch (error) {
     console.error('加载统计数据失败', error)
@@ -327,9 +342,10 @@ const loadCharts = async () => {
   try {
     // 用户增长趋势
     const userGrowthResponse = await getAdminDashboardUserGrowth({ days: 30 })
-    if (userGrowthResponse && userGrowthResponse.data) {
-      const dates = userGrowthResponse.data.map(item => item.date)
-      const userCounts = userGrowthResponse.data.map(item => item.count)
+    if (userGrowthResponse && (userGrowthResponse.data || userGrowthResponse.list)) {
+      const rows = userGrowthResponse.data || userGrowthResponse.list
+      const dates = rows.map(item => item.date || item.day || item.stat_date)
+      const userCounts = rows.map(item => item.count ?? item.total ?? 0)
       
       userGrowthChartData.value = {
         tooltip: {
@@ -371,9 +387,10 @@ const loadCharts = async () => {
 
     // 课程预约统计
     const courseReservationResponse = await getAdminDashboardCourseReservations()
-    if (courseReservationResponse && courseReservationResponse.data) {
-      const courseNames = courseReservationResponse.data.map(item => item.course_name)
-      const reservationCounts = courseReservationResponse.data.map(item => item.count)
+    if (courseReservationResponse && (courseReservationResponse.data || courseReservationResponse.list)) {
+      const rows = courseReservationResponse.data || courseReservationResponse.list
+      const courseNames = rows.map(item => item.course_name || item.courseName)
+      const reservationCounts = rows.map(item => item.count ?? item.total ?? 0)
       
       courseReservationChartData.value = {
         tooltip: {
@@ -401,9 +418,10 @@ const loadCharts = async () => {
 
     // 签到出勤率
     const attendanceRateResponse = await getAdminDashboardAttendanceRate({ days: 7 })
-    if (attendanceRateResponse && attendanceRateResponse.data) {
-      const attendanceDates = attendanceRateResponse.data.map(item => item.date)
-      const attendanceRates = attendanceRateResponse.data.map(item => item.rate)
+    if (attendanceRateResponse && (attendanceRateResponse.data || attendanceRateResponse.list)) {
+      const rows = attendanceRateResponse.data || attendanceRateResponse.list
+      const attendanceDates = rows.map(item => item.date || item.day || item.stat_date)
+      const attendanceRates = rows.map(item => item.rate ?? item.value ?? 0)
       
       attendanceRateChartData.value = {
         tooltip: {
@@ -450,10 +468,15 @@ const loadCharts = async () => {
 
     // 会员卡类型分布
     const membershipDistributionResponse = await getAdminDashboardMembershipDistribution()
-    if (membershipDistributionResponse && membershipDistributionResponse.data) {
-      const membershipData = membershipDistributionResponse.data.map(item => ({
-        value: item.count,
-        name: item.type === 'annual' ? '年度会员' : item.type === 'monthly' ? '月度会员' : '其他'
+    if (membershipDistributionResponse && (membershipDistributionResponse.data || membershipDistributionResponse.list)) {
+      const rows = membershipDistributionResponse.data || membershipDistributionResponse.list
+      const membershipData = rows.map(item => ({
+        value: item.count ?? item.total ?? 0,
+        name: (item.type || item.membership_type) === 'annual'
+          ? '年度会员'
+          : (item.type || item.membership_type) === 'monthly'
+          ? '月度会员'
+          : '其他'
       }))
       
       membershipDistributionChartData.value = {
@@ -483,10 +506,11 @@ const loadCharts = async () => {
 
     // 课程类型分布
     const courseDistributionResponse = await getAdminDashboardCourseDistribution()
-    if (courseDistributionResponse && courseDistributionResponse.data) {
-      const courseData = courseDistributionResponse.data.map(item => ({
-        value: item.count,
-        name: item.course_name
+    if (courseDistributionResponse && (courseDistributionResponse.data || courseDistributionResponse.list)) {
+      const rows = courseDistributionResponse.data || courseDistributionResponse.list
+      const courseData = rows.map(item => ({
+        value: item.count ?? item.total ?? 0,
+        name: item.course_name || item.courseName
       }))
       
       courseDistributionChartData.value = {

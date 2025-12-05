@@ -31,8 +31,8 @@ public class AdminLockerController {
     }
 
     @PostMapping
-    public Result<Map<String, Integer>> createLocker(@RequestBody Map<String, Integer> request) {
-        Integer lockerNumber = request.get("locker_number");
+    public Result<Map<String, Integer>> createLocker(@RequestBody Map<String, Object> request) {
+        Integer lockerNumber = request.get("locker_number") instanceof Number ? ((Number) request.get("locker_number")).intValue() : null;
         Integer lockerId = adminLockerService.createLocker(lockerNumber);
         Map<String, Integer> data = Map.of("locker_id", lockerId);
         return Result.success("创建成功", data);

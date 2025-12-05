@@ -29,8 +29,9 @@ public class ReservationServiceImpl implements ReservationService {
         if (course == null) {
             throw new RuntimeException("课程不存在");
         }
-        if (course.getSchedule().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("课程已过期");
+        // 允许预约已开课未结束的课程，仅在课程已结束时禁止
+        if ("completed".equalsIgnoreCase(course.getStatus())) {
+            throw new RuntimeException("课程已结束，无法预约");
         }
         Reservation existing = reservationMapper.selectByUserIdAndCourseId(userId, courseId);
         if (existing != null) {
