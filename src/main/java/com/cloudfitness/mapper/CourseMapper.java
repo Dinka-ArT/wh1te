@@ -4,12 +4,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.cloudfitness.entity.Course;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
 public interface CourseMapper extends BaseMapper<Course> {
-    List<Course> selectUpcomingCourses(@Param("startTime") LocalDateTime startTime);
+    List<Course> selectUpcomingCourses();
     List<Course> selectByInstructorId(@Param("instructorId") Integer instructorId);
     List<Course> selectAdminCourses(@Param("courseName") String courseName,
                                     @Param("instructorId") Integer instructorId,

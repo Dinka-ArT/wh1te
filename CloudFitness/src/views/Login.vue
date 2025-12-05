@@ -92,7 +92,7 @@ const handleLogin = async () => {
           if (role === 'admin') {
             router.push('/admin')
           } else {
-            router.push('/')
+            router.push('/home/home')
           }
         } else {
           ElMessage.error(result.message || '登录失败')

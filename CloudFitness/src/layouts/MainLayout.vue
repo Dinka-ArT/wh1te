@@ -11,27 +11,27 @@
         router
         class="sidebar-menu"
       >
-        <el-menu-item index="/home">
+        <el-menu-item index="/home/home">
           <el-icon><House /></el-icon>
           <template #title>首页</template>
         </el-menu-item>
-        <el-menu-item index="/courses">
+        <el-menu-item index="/home/courses">
           <el-icon><Calendar /></el-icon>
           <template #title>课程中心</template>
         </el-menu-item>
-        <el-menu-item index="/reservations">
+        <el-menu-item index="/home/reservations">
           <el-icon><Document /></el-icon>
           <template #title>我的预约</template>
         </el-menu-item>
-        <el-menu-item index="/attendance">
+        <el-menu-item index="/home/attendance">
           <el-icon><Check /></el-icon>
           <template #title>签到记录</template>
         </el-menu-item>
-        <el-menu-item index="/lockers">
+        <el-menu-item index="/home/lockers">
           <el-icon><Box /></el-icon>
           <template #title>储物柜</template>
         </el-menu-item>
-        <el-menu-item index="/profile">
+        <el-menu-item index="/home/profile">
           <el-icon><User /></el-icon>
           <template #title>个人中心</template>
         </el-menu-item>
@@ -119,7 +119,7 @@ const handleCommand = (command) => {
       router.replace('/login')
     }).catch(() => {})
   } else if (command === 'profile') {
-    router.push('/profile')
+    router.push('/home/profile')
   }
 }
 </script>

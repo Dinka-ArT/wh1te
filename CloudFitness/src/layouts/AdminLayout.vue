@@ -86,27 +86,23 @@
           </el-icon>
         </div>
         <div class="header-right">
-          <el-dropdown @command="handleCommand">
-            <div class="user-info">
-              <el-avatar :size="36" :src="userStore.userInfo?.avatar">
-                <el-icon><User /></el-icon>
-              </el-avatar>
-              <span class="username">{{ userStore.userInfo?.username || '管理员' }}</span>
-              <el-icon><ArrowDown /></el-icon>
-            </div>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item command="profile">
-                  <el-icon><User /></el-icon>
-                  我的资料
-                </el-dropdown-item>
-                <el-dropdown-item command="logout" divided>
-                  <el-icon><SwitchButton /></el-icon>
-                  退出登录
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+        <el-dropdown @command="handleCommand">
+          <div class="user-info">
+            <el-avatar :size="36" :src="userStore.userInfo?.avatar">
+              <el-icon><User /></el-icon>
+            </el-avatar>
+            <span class="username">{{ userStore.userInfo?.username || '管理员' }}</span>
+            <el-icon><ArrowDown /></el-icon>
+          </div>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="logout">
+                <el-icon><SwitchButton /></el-icon>
+                退出登录
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
         </div>
       </el-header>
 
@@ -161,8 +157,6 @@ const handleCommand = (command) => {
       userStore.logout()
       router.replace('/login')
     }).catch(() => {})
-  } else if (command === 'profile') {
-    router.push('/profile')
   }
 }
 </script>

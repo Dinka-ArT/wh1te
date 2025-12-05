@@ -66,10 +66,10 @@
             <div class="course-actions">
               <el-button
                 type="primary"
-                :disabled="!canReserve(course)"
+                :disabled="!canReserve(course) && !isReserved(course)"
                 @click.stop="handleReserve(course)"
               >
-                {{ isReserved(course) ? '已预约' : '立即预约' }}
+                {{ isReserved(course) ? '取消预约' : '立即预约' }}
               </el-button>
             </div>
           </div>
@@ -139,6 +139,23 @@ const reservationStore = useReservationStore()
 
 const courses = ref([])
 const instructors = ref([])
+
+// 兼容后端字段命名，统一 course_id 等
+const normalizeCourse = (item) => {
+  if (!item) return null
+  return {
+    ...item,
+    course_id: item.course_id ?? item.courseId,
+    course_name: item.course_name ?? item.courseName,
+    instructor_id: item.instructor_id ?? item.instructorId,
+    instructor_name: item.instructor_name ?? item.instructorName,
+    schedule: item.schedule,
+    capacity: item.capacity,
+    reserved_count: item.reserved_count ?? item.reservedCount,
+    description: item.description,
+    status: item.status
+  }
+}
 const loading = ref(false)
 const filterDate = ref(null)
 const filterInstructor = ref(null)
@@ -155,12 +172,14 @@ const canReserve = (course) => {
   return true
 }
 
-const isReserved = (course) => {
-  if (!course) return false
-  return reservationStore.reservations.some(
+const getReservationForCourse = (course) => {
+  if (!course) return null
+  return reservationStore.reservations.find(
     r => r.course_id === course.course_id && (r.status === 'pending' || r.status === 'confirmed')
   )
 }
+
+const isReserved = (course) => !!getReservationForCourse(course)
 
 const isUpcoming = (course) => {
   if (!course) return false
@@ -197,8 +216,13 @@ const fetchCourses = async () => {
       params.instructor_id = filterInstructor.value
     }
     const data = await getCourses(params)
-    courses.value = data.courses || data
-    instructors.value = data.instructors || []
+    const list = data.courses || data.list || data
+    courses.value = (list || []).map(normalizeCourse)
+    instructors.value = (data.instructors || []).map(item => ({
+      ...item,
+      user_id: item.user_id ?? item.userId,
+      username: item.username
+    }))
   } catch (error) {
     ElMessage.error('获取课程列表失败')
     console.error(error)
@@ -217,6 +241,33 @@ const showCourseDetail = (course) => {
 }
 
 const handleReserve = async (course) => {
+  const existing = getReservationForCourse(course)
+  if (existing) {
+    // 退课（取消预约）
+    try {
+      await ElMessageBox.confirm(
+        `确定取消课程 "${course.course_name}" 的预约吗？`,
+        '取消预约',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      )
+      const res = await reservationStore.cancel(existing.reservation_id)
+      if (res.success) {
+        ElMessage.success('已取消预约')
+        await fetchCourses()
+        detailVisible.value = false
+      } else {
+        ElMessage.error(res.message || '取消失败')
+      }
+    } catch (error) {
+      // 用户取消不提示
+    }
+    return
+  }
+
   if (!canReserve(course)) {
     ElMessage.warning('无法预约此课程')
     return

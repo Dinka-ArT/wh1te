@@ -16,9 +16,7 @@
 
     <select id="selectUpcomingCourses" resultMap="BaseResultMap">
         SELECT * FROM courses
-        WHERE schedule &gt;= #{startTime}
-        AND status IN ('upcoming', 'ongoing')
-        ORDER BY schedule ASC
+        ORDER BY schedule DESC
     </select>
 
     <select id="selectByInstructorId" resultMap="BaseResultMap">

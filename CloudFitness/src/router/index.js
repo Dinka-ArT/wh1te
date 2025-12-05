@@ -19,10 +19,10 @@ const routes = [
     component: () => import('@/views/Register.vue'),
     meta: { requiresAuth: false }
   },
-  {
+{
     path: '/home',
     component: () => import('@/layouts/MainLayout.vue'),
-    redirect: '/home',
+    redirect: '/home/home',
     meta: { requiresAuth: true },
     children: [
       {
@@ -181,7 +181,7 @@ router.beforeEach(async (to, from, next) => {
     if (role === 'admin') {
       next('/admin')
     } else {
-      next('/home')
+      next('/home/home')
     }
     return
   }
