@@ -395,6 +395,21 @@ const getRoleText = (role) => {
   return map[role] || role
 }
 
+// 兼容后端返回的不同字段命名（下划线/驼峰）
+const normalizeMember = (item) => ({
+  ...item,
+  user_id: item.user_id ?? item.userId,
+  username: item.username,
+  phone_number: item.phone_number ?? item.phoneNumber,
+  email: item.email,
+  role: item.role,
+  status: item.status ?? item.userStatus,
+  registration_date: item.registration_date ?? item.registrationDate,
+  membership_type: item.membership_type ?? item.membershipType,
+  start_date: item.start_date ?? item.startDate,
+  expiry_date: item.expiry_date ?? item.expiryDate
+})
+
 const fetchData = async () => {
   loading.value = true
   try {
@@ -419,7 +434,7 @@ const fetchData = async () => {
       params.membership_status = searchForm.membership_status
     }
     const response = await getAdminMembers(params)
-    tableData.value = response.list || []
+    tableData.value = (response.list || []).map(normalizeMember)
     pagination.total = response.total || 0
   } catch (error) {
     ElMessage.error('获取会员列表失败')

@@ -415,7 +415,7 @@ const fetchData = async () => {
       params.status = searchForm.status
     }
     const response = await getAdminCoaches(params)
-    tableData.value = response.list || []
+    tableData.value = (response.list || []).map(normalizeCoach)
     pagination.total = response.total || 0
   } catch (error) {
     ElMessage.error('获取教练列表失败')
@@ -438,6 +438,18 @@ const handleReset = () => {
   })
   handleSearch()
 }
+
+// 兼容后端返回的字段命名（驼峰/下划线）
+const normalizeCoach = (item) => ({
+  ...item,
+  user_id: item.user_id ?? item.userId,
+  username: item.username,
+  phone_number: item.phone_number ?? item.phoneNumber,
+  email: item.email,
+  status: item.status ?? item.userStatus,
+  registration_date: item.registration_date ?? item.registrationDate,
+  course_count: item.course_count ?? item.courseCount
+})
 
 const handleAdd = () => {
   isEdit.value = false

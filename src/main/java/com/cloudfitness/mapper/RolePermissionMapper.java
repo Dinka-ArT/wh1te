@@ -12,3 +12,4 @@ public interface RolePermissionMapper extends BaseMapper<RolePermission> {
     void deleteByRoleId(@Param("roleId") Integer roleId);
 }
 
+

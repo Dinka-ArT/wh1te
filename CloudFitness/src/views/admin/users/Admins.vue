@@ -410,7 +410,7 @@ const fetchData = async () => {
       params.status = searchForm.status
     }
     const response = await getAdminAdmins(params)
-    tableData.value = response.list || []
+    tableData.value = (response.list || []).map(normalizeAdmin)
     pagination.total = response.total || 0
   } catch (error) {
     ElMessage.error('获取管理员列表失败')
@@ -433,6 +433,19 @@ const handleReset = () => {
   })
   handleSearch()
 }
+
+// 兼容后端返回的字段命名（驼峰/下划线）和角色字段
+const normalizeAdmin = (item) => ({
+  ...item,
+  user_id: item.user_id ?? item.userId,
+  username: item.username,
+  phone_number: item.phone_number ?? item.phoneNumber,
+  email: item.email,
+  status: item.status ?? item.userStatus,
+  registration_date: item.registration_date ?? item.registrationDate,
+  last_login_time: item.last_login_time ?? item.lastLoginTime,
+  roles: item.roles ?? item.roleList ?? []
+})
 
 const handleAdd = () => {
   isEdit.value = false

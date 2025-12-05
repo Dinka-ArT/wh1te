@@ -421,6 +421,14 @@ const formData = reactive({
 
 const coaches = ref([])
 
+// 兼容后端教练列表字段（userId/phoneNumber）并统一为 number 类型的 user_id，避免下拉选择失效
+const normalizeCoachOption = (item) => ({
+  ...item,
+  user_id: Number(item.user_id ?? item.userId),
+  username: item.username,
+  phone_number: item.phone_number ?? item.phoneNumber
+})
+
 const formRules = {
   course_name: [
     { required: true, message: '请输入课程名称', trigger: 'blur' },
@@ -548,7 +556,7 @@ const handleEdit = (row) => {
   Object.assign(formData, {
     course_id: row.course_id,
     course_name: row.course_name,
-    instructor_id: row.instructor_id,
+    instructor_id: row.instructor_id ? Number(row.instructor_id) : null,
     schedule: row.schedule,
     capacity: row.capacity,
     description: row.description || '',
@@ -640,7 +648,7 @@ const handlePageChange = (page) => {
 const loadCoaches = async () => {
   try {
     const response = await getAllCoaches()
-    coaches.value = response.list || []
+    coaches.value = (response.list || []).map(normalizeCoachOption)
   } catch (error) {
     console.error('加载教练列表失败', error)
   }

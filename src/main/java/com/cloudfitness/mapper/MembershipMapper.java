@@ -12,3 +12,4 @@ public interface MembershipMapper extends BaseMapper<Membership> {
     List<Membership> selectByUserId(@Param("userId") Integer userId);
 }
 
+

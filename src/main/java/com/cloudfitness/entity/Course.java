@@ -21,3 +21,4 @@ public class Course {
     private LocalDateTime updatedAt;
 }
 
+

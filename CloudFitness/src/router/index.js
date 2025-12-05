@@ -4,7 +4,7 @@ import { ElMessage } from 'element-plus'
 
 const routes = [
   {
-    path: '/login',
+    path: '/',
     name: 'Login',
     component: () => import('@/views/Login.vue'),
     meta: { requiresAuth: false }
@@ -16,7 +16,7 @@ const routes = [
     meta: { requiresAuth: false }
   },
   {
-    path: '/',
+    path: '/home',
     component: () => import('@/layouts/MainLayout.vue'),
     redirect: '/home',
     meta: { requiresAuth: true },
@@ -140,8 +140,20 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
+
+  // 如果有 token 但未拉取用户信息，先拉取一次，保证刷新后角色可用
+  if (userStore.isLoggedIn && !userStore.userInfo) {
+    try {
+      await userStore.fetchUserInfo()
+    } catch (e) {
+      // 拉取失败则登出并回到登录
+      userStore.logout()
+      next('/login')
+      return
+    }
+  }
   
   // 检查是否需要登录
   if (to.meta.requiresAuth && !userStore.isLoggedIn) {
@@ -159,13 +171,13 @@ router.beforeEach((to, from, next) => {
     }
   }
   
-  // 如果已登录，访问登录/注册页则跳转到首页
+  // 如果已登录，访问登录/注册页则跳转到首页/后台
   if ((to.path === '/login' || to.path === '/register') && userStore.isLoggedIn) {
     const role = userStore.userInfo?.role
     if (role === 'admin') {
       next('/admin')
     } else {
-      next('/')
+      next('/home')
     }
     return
   }

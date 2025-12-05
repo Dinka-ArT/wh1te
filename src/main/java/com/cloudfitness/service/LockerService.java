@@ -7,3 +7,4 @@ public interface LockerService {
     List<Locker> getLockersByUserId(Integer userId);
 }
 
+

@@ -6,3 +6,4 @@ public interface MembershipService {
     Membership getCurrentMembership(Integer userId);
 }
 
+
