@@ -11,29 +11,9 @@
         router
         class="sidebar-menu"
       >
-        <el-menu-item index="/home/home">
-          <el-icon><House /></el-icon>
-          <template #title>首页</template>
-        </el-menu-item>
-        <el-menu-item index="/home/courses">
-          <el-icon><Calendar /></el-icon>
-          <template #title>课程中心</template>
-        </el-menu-item>
-        <el-menu-item index="/home/reservations">
-          <el-icon><Document /></el-icon>
-          <template #title>我的预约</template>
-        </el-menu-item>
-        <el-menu-item index="/home/attendance">
-          <el-icon><Check /></el-icon>
-          <template #title>签到记录</template>
-        </el-menu-item>
-        <el-menu-item index="/home/lockers">
-          <el-icon><Box /></el-icon>
-          <template #title>储物柜</template>
-        </el-menu-item>
-        <el-menu-item index="/home/profile">
+        <el-menu-item index="/login">
           <el-icon><User /></el-icon>
-          <template #title>个人中心</template>
+          <template #title>请前往小程序使用会员/教练端</template>
         </el-menu-item>
       </el-menu>
     </el-aside>
@@ -57,10 +37,6 @@
             </div>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="profile">
-                  <el-icon><User /></el-icon>
-                  我的资料
-                </el-dropdown-item>
                 <el-dropdown-item command="logout" divided>
                   <el-icon><SwitchButton /></el-icon>
                   退出登录
@@ -83,11 +59,6 @@ import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import {
-  House,
-  Calendar,
-  Document,
-  Check,
-  Box,
   User,
   Fold,
   Expand,
@@ -118,8 +89,6 @@ const handleCommand = (command) => {
       userStore.logout()
       router.replace('/login')
     }).catch(() => {})
-  } else if (command === 'profile') {
-    router.push('/home/profile')
   }
 }
 </script>

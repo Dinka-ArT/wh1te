@@ -1,0 +1,19 @@
+<view class="container">
+  <view wx:if="{{loading}}">加载中...</view>
+  <block wx:else>
+    <block wx:if="{{list.length}}">
+      <block wx:for="{{list}}" wx:key="course_id">
+        <view class="card">
+          <view class="title">{{item.course_name}}</view>
+          <view class="meta">教练：{{item.instructor_id || '待定'}}</view>
+          <view class="meta">时间：{{item.schedule}}</view>
+          <view class="meta">容量：{{item.capacity}}</view>
+          <view class="desc">{{item.description || '暂无描述'}}</view>
+          <button size="mini" type="primary" data-id="{{item.course_id}}" bindtap="reserve">预约</button>
+        </view>
+      </block>
+    </block>
+    <view wx:else class="empty">暂无课程</view>
+  </block>
+</view>
+

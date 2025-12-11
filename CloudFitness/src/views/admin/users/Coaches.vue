@@ -448,7 +448,8 @@ const normalizeCoach = (item) => ({
   email: item.email,
   status: item.status ?? item.userStatus,
   registration_date: item.registration_date ?? item.registrationDate,
-  course_count: item.course_count ?? item.courseCount
+  course_count: item.course_count ?? item.courseCount,
+  description: item.description
 })
 
 const handleAdd = () => {
@@ -466,20 +467,28 @@ const handleAdd = () => {
 
 const handleEdit = (row) => {
   isEdit.value = true
-  Object.assign(formData, {
-    user_id: row.user_id,
-    username: row.username,
-    phone_number: row.phone_number,
-    email: row.email,
-    password: '',
-    description: row.description || ''
+  getAdminCoachDetail(row.user_id).then((detail) => {
+    Object.assign(formData, {
+      user_id: detail.user_id,
+      username: detail.username,
+      phone_number: detail.phone_number,
+      email: detail.email,
+      password: '',
+      description: detail.description || ''
+    })
+    formVisible.value = true
+  }).catch(() => {
+    ElMessage.error('获取教练详情失败')
   })
-  formVisible.value = true
 }
 
 const handleView = (row) => {
-  selectedRow.value = row
   detailVisible.value = true
+  getAdminCoachDetail(row.user_id).then((detail) => {
+    selectedRow.value = detail
+  }).catch(() => {
+    ElMessage.error('获取教练详情失败')
+  })
 }
 
 const handleViewCourses = async (row) => {

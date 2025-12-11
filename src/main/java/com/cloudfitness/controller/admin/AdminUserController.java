@@ -99,7 +99,8 @@ public class AdminUserController {
         String phoneNumber = request.get("phone_number");
         String email = request.get("email");
         String password = request.get("password");
-        Integer userId = adminUserService.createCoach(username, phoneNumber, email, password);
+        String description = request.get("description");
+        Integer userId = adminUserService.createCoach(username, phoneNumber, email, password, description);
         Map<String, Integer> data = Map.of("user_id", userId);
         return Result.success("创建成功", data);
     }
@@ -107,7 +108,8 @@ public class AdminUserController {
     @PutMapping("/coaches/{user_id}")
     public Result<Object> updateCoach(@PathVariable("user_id") Integer userId, @RequestBody Map<String, String> request) {
         String email = request.get("email");
-        adminUserService.updateCoach(userId, email);
+        String description = request.get("description");
+        adminUserService.updateCoach(userId, email, description);
         return Result.success("更新成功", null);
     }
 

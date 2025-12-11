@@ -60,6 +60,7 @@ D:\Code\Java\CloudFitness\src\main\java\com\cloudfitness\controller\CourseContro
 D:\Code\Java\CloudFitness\src\main\java\com\cloudfitness\entity\Role.java
 D:\Code\Java\CloudFitness\src\main\java\com\cloudfitness\mapper\OperationLogMapper.java
 D:\Code\Java\CloudFitness\src\main\java\com\cloudfitness\service\AdminRoleService.java
+D:\Code\Java\CloudFitness\src\main\java\com\cloudfitness\config\AppConfig.java
 D:\Code\Java\CloudFitness\src\main\java\com\cloudfitness\service\AdminLockerService.java
 D:\Code\Java\CloudFitness\src\main\java\com\cloudfitness\controller\ReservationController.java
 D:\Code\Java\CloudFitness\src\main\java\com\cloudfitness\service\impl\AdminReservationServiceImpl.java

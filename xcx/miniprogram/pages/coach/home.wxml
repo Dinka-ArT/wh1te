@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="card">
+    <view class="title">教练工作台</view>
+    <view class="meta">快速进入日常功能</view>
+    <view class="actions">
+      <button type="primary" size="mini" bindtap="goCourses">我的课程</button>
+      <button size="mini" bindtap="goReservations">课程预约</button>
+    </view>
+  </view>
+</view>
+

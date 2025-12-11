@@ -14,6 +14,8 @@
         <result column="registration_date" property="registrationDate"/>
         <result column="created_at" property="createdAt"/>
         <result column="updated_at" property="updatedAt"/>
+        <result column="description" property="description"/>
+        <result column="openid" property="openid"/>
     </resultMap>
 
     <select id="selectByUsername" resultMap="BaseResultMap">
@@ -174,6 +176,10 @@
         <if test="status != null and status != ''">
             AND status = #{status}
         </if>
+    </select>
+
+    <select id="selectByOpenid" resultMap="BaseResultMap">
+        SELECT * FROM users WHERE openid = #{openid}
     </select>
 
 </mapper>

@@ -1,0 +1,8 @@
+<view class="container">
+  <view class="row">
+    <text class="label">当前 token：</text>
+    <text class="value">{{token || '未登录'}}</text>
+  </view>
+  <button type="warn" bindtap="logout">退出登录</button>
+</view>
+

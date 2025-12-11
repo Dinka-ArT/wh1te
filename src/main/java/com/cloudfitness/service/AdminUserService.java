@@ -19,8 +19,8 @@ public interface AdminUserService {
                                   String startDate, String endDate, String status,
                                   Integer page, Integer pageSize);
     Map<String, Object> getCoachDetail(Integer userId);
-    Integer createCoach(String username, String phoneNumber, String email, String password);
-    void updateCoach(Integer userId, String email);
+    Integer createCoach(String username, String phoneNumber, String email, String password, String description);
+    void updateCoach(Integer userId, String email, String description);
     void deleteCoach(Integer userId);
     void resetCoachPassword(Integer userId, String newPassword);
     void updateCoachStatus(Integer userId, String status);

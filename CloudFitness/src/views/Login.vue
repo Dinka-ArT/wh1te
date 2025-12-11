@@ -3,7 +3,7 @@
     <div class="login-box">
       <div class="login-header">
         <h1 class="title">云健健身</h1>
-        <p class="subtitle">会员登录系统</p>
+        <p class="subtitle">后台管理登录</p>
       </div>
       <el-form
         ref="loginFormRef"
@@ -39,10 +39,6 @@
           >
             登录
           </el-button>
-        </el-form-item>
-        <el-form-item class="register-link">
-          <span>还没有账号？</span>
-          <el-link type="primary" @click="goToRegister">立即注册</el-link>
         </el-form-item>
       </el-form>
     </div>
@@ -85,18 +81,18 @@ const handleLogin = async () => {
       loading.value = true
       try {
         const result = await userStore.loginUser(loginForm.username, loginForm.password)
-        if (result.success) {
-          ElMessage.success('登录成功')
-          // 根据用户角色跳转到不同界面
-          const role = userStore.userInfo?.role
-          if (role === 'admin') {
-            router.push('/admin')
-          } else {
-            router.push('/home/home')
-          }
-        } else {
+        if (!result.success) {
           ElMessage.error(result.message || '登录失败')
+          return
         }
+        const role = userStore.userInfo?.role
+        if (role !== 'admin') {
+          ElMessage.error('此站点仅限管理员访问')
+          userStore.logout()
+          return
+        }
+        ElMessage.success('登录成功')
+        router.push('/admin')
       } catch (error) {
         ElMessage.error('登录失败，请稍后重试')
       } finally {
@@ -106,9 +102,6 @@ const handleLogin = async () => {
   })
 }
 
-const goToRegister = () => {
-  router.push('/register')
-}
 </script>
 
 <style lang="scss" scoped>

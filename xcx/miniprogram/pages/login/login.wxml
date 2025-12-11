@@ -1,0 +1,9 @@
+<!--pages/login/login.wxml-->
+<view class="container">
+  <button wx:if="{{!hasUserInfo}}" bind:tap="login">微信登录</button>
+  <block wx:else>
+    <text>已登录</text>
+  </block>
+</view>
+
+

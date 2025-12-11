@@ -21,6 +21,8 @@ public class User {
     private LocalDateTime registrationDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String description; // 教练/用户简介
+    private String openid;
 }
 
 

@@ -173,11 +173,12 @@ public class AdminUserServiceImpl implements AdminUserService {
         result.put("email", user.getEmail());
         result.put("role", user.getRole());
         result.put("registration_date", user.getRegistrationDate());
+        result.put("description", user.getDescription());
         return result;
     }
 
     @Override
-    public Integer createCoach(String username, String phoneNumber, String email, String password) {
+    public Integer createCoach(String username, String phoneNumber, String email, String password, String description) {
         if (userMapper.selectByUsername(username) != null) {
             throw new RuntimeException("用户名已存在");
         }
@@ -191,6 +192,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         user.setPassword(Md5Util.encrypt(password));
         user.setRole("coach");
         user.setStatus("active");
+        user.setDescription(description);
         user.setRegistrationDate(LocalDateTime.now());
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
@@ -199,13 +201,16 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public void updateCoach(Integer userId, String email) {
+    public void updateCoach(Integer userId, String email, String description) {
         User user = userMapper.selectById(userId);
         if (user == null) {
             throw new RuntimeException("用户不存在");
         }
         if (email != null) {
             user.setEmail(email);
+        }
+        if (description != null) {
+            user.setDescription(description);
         }
         user.setUpdatedAt(LocalDateTime.now());
         userMapper.updateById(user);

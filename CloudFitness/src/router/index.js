@@ -14,59 +14,9 @@ const routes = [
     meta: { requiresAuth: false }
   },
   {
-    path: '/register',
-    name: 'Register',
-    component: () => import('@/views/Register.vue'),
-    meta: { requiresAuth: false }
-  },
-{
-    path: '/home',
-    component: () => import('@/layouts/MainLayout.vue'),
-    redirect: '/home/home',
-    meta: { requiresAuth: true },
-    children: [
-      {
-        path: 'home',
-        name: 'Home',
-        component: () => import('@/views/Home.vue'),
-        meta: { title: '首页' }
-      },
-      {
-        path: 'courses',
-        name: 'Courses',
-        component: () => import('@/views/Courses.vue'),
-        meta: { title: '课程中心' }
-      },
-      {
-        path: 'reservations',
-        name: 'Reservations',
-        component: () => import('@/views/Reservations.vue'),
-        meta: { title: '我的预约' }
-      },
-      {
-        path: 'attendance',
-        name: 'Attendance',
-        component: () => import('@/views/Attendance.vue'),
-        meta: { title: '签到记录' }
-      },
-      {
-        path: 'lockers',
-        name: 'Lockers',
-        component: () => import('@/views/Lockers.vue'),
-        meta: { title: '储物柜' }
-      },
-      {
-        path: 'profile',
-        name: 'Profile',
-        component: () => import('@/views/Profile.vue'),
-        meta: { title: '个人中心' }
-      }
-    ]
-  },
-  {
     path: '/admin',
     component: () => import('@/layouts/AdminLayout.vue'),
-    redirect: '/admin/users/members',
+    redirect: '/admin/dashboard',
     meta: { requiresAuth: true, requiresAdmin: true },
     children: [
       {
@@ -169,20 +119,16 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAdmin) {
     const role = userStore.userInfo?.role
     if (role !== 'admin') {
-      ElMessage.error('需要管理员权限')
-      next('/')
+      ElMessage.error('此站点仅供管理员使用')
+      userStore.logout()
+      next('/login')
       return
     }
   }
   
-  // 如果已登录，访问登录/注册页则跳转到首页/后台
-  if ((to.path === '/login' || to.path === '/register') && userStore.isLoggedIn) {
-    const role = userStore.userInfo?.role
-    if (role === 'admin') {
-      next('/admin')
-    } else {
-      next('/home/home')
-    }
+  // 如果已登录，访问登录页则跳转后台
+  if (to.path === '/login' && userStore.isLoggedIn) {
+    next('/admin')
     return
   }
   

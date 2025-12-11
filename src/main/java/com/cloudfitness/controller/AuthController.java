@@ -60,6 +60,26 @@ public class AuthController {
         data.put("exists", exists);
         return Result.success(data);
     }
+
+    @PostMapping("/wx-login")
+    public Result<Map<String, Object>> wxLogin(@RequestBody Map<String, String> request) {
+        String code = request.get("code");
+        String token = authService.wxLogin(code);
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", token);
+        // 便于小程序直接拿到用户信息
+        try {
+            Integer userId = jwtUtil.getUserIdFromToken(token);
+            String role = jwtUtil.getRoleFromToken(token);
+            String username = jwtUtil.getUsernameFromToken(token);
+            data.put("user_id", userId);
+            data.put("role", role);
+            data.put("username", username);
+        } catch (Exception ignored) {
+            // 即便解析失败也不影响登录，前端可按需重新获取
+        }
+        return Result.success(data);
+    }
 }
 
 
