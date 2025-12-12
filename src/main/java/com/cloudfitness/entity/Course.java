@@ -13,7 +13,7 @@ public class Course {
     private Integer courseId;
     private String courseName;
     private Integer instructorId;
-    private LocalDateTime schedule;
+    private String schedule;
     private Integer capacity;
     private String description;
     private String status;

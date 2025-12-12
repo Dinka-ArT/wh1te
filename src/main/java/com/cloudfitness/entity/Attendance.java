@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 public class Attendance {
     @TableId(type = IdType.AUTO)
     private Integer attendanceId;
+    private Integer userId;
+    private Integer courseId;
     private Integer reservationId;
     private LocalDateTime checkInTime;
     private Boolean isOnTime;

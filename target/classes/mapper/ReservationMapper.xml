@@ -12,6 +12,17 @@
         <result column="updated_at" property="updatedAt"/>
     </resultMap>
 
+    <resultMap id="ReservationDetailDtoResultMap" type="com.cloudfitness.dto.ReservationDetailDto">
+        <id column="reservation_id" property="reservationId"/>
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="course_id" property="courseId"/>
+        <result column="course_name" property="courseName"/>
+        <result column="schedule" property="schedule"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
     <select id="selectByUserId" resultMap="BaseResultMap">
         SELECT * FROM reservations
         WHERE user_id = #{userId}
@@ -78,6 +89,28 @@
         </if>
     </select>
 
+    <select id="selectReservationDetailsByCourseIds" resultMap="ReservationDetailDtoResultMap">
+        SELECT
+            r.reservation_id,
+            r.user_id,
+            u.username,
+            r.course_id,
+            c.course_name,
+            c.schedule,
+            r.status,
+            r.created_at
+        FROM
+            reservations r
+        JOIN
+            users u ON r.user_id = u.user_id
+        JOIN
+            courses c ON r.course_id = c.course_id
+        WHERE
+            r.course_id IN
+        <foreach item="item" index="index" collection="courseIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        ORDER BY r.created_at DESC
+    </select>
+
 </mapper>
-
-

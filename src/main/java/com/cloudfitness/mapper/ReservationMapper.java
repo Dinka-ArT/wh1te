@@ -4,6 +4,7 @@ import com.cloudfitness.entity.Reservation;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import com.cloudfitness.dto.ReservationDetailDto;
 import java.util.List;
 
 @Mapper
@@ -24,5 +25,7 @@ public interface ReservationMapper extends BaseMapper<Reservation> {
                                  @Param("startDate") String startDate,
                                  @Param("endDate") String endDate,
                                  @Param("status") String status);
+
+    List<ReservationDetailDto> selectReservationDetailsByCourseIds(@Param("courseIds") List<Integer> courseIds);
 }
 

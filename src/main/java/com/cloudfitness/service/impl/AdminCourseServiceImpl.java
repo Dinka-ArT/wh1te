@@ -117,7 +117,7 @@ public class AdminCourseServiceImpl implements AdminCourseService {
         Course course = new Course();
         course.setCourseName(courseName);
         course.setInstructorId(instructorId);
-        course.setSchedule(LocalDateTime.parse(schedule.replace("Z", "").replace("T", " "), FORMATTER));
+        course.setSchedule(schedule);
         course.setCapacity(capacity);
         course.setDescription(description);
         course.setStatus("upcoming");
@@ -141,7 +141,7 @@ public class AdminCourseServiceImpl implements AdminCourseService {
             course.setInstructorId(instructorId);
         }
         if (schedule != null) {
-            course.setSchedule(LocalDateTime.parse(schedule.replace("Z", "").replace("T", " "), FORMATTER));
+            course.setSchedule(schedule);
         }
         if (capacity != null) {
             course.setCapacity(capacity);

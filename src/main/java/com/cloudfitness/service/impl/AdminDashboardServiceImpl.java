@@ -51,9 +51,9 @@ public class AdminDashboardServiceImpl implements AdminDashboardService {
 
         var courses = courseMapper.selectList(null);
         int totalCourses = courses.size();
-        int todayCourses = (int) courses.stream()
-                .filter(c -> c.getSchedule() != null && c.getSchedule().toLocalDate().isEqual(today))
-                .count();
+        // The original logic for 'todayCourses' is disabled because Course.schedule is now a String (e.g., '每周三 19:00-20:00')
+        // and can no longer be directly compared with today's date.
+        int todayCourses = 0;
 
         var reservations = reservationMapper.selectList(null);
         int totalReservations = reservations.size();

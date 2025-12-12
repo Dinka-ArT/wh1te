@@ -90,6 +90,9 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (userMapper.selectByPhoneNumber(phoneNumber) != null) {
             throw new RuntimeException("手机号已存在");
         }
+        if (email != null && !email.isEmpty() && userMapper.selectByEmail(email) != null) {
+            throw new RuntimeException("邮箱已存在");
+        }
         User user = new User();
         user.setUsername(username);
         user.setPhoneNumber(phoneNumber);
@@ -174,6 +177,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         result.put("role", user.getRole());
         result.put("registration_date", user.getRegistrationDate());
         result.put("description", user.getDescription());
+        result.put("status", user.getStatus());
         return result;
     }
 
@@ -184,6 +188,9 @@ public class AdminUserServiceImpl implements AdminUserService {
         }
         if (userMapper.selectByPhoneNumber(phoneNumber) != null) {
             throw new RuntimeException("手机号已存在");
+        }
+        if (email != null && !email.isEmpty() && userMapper.selectByEmail(email) != null) {
+            throw new RuntimeException("邮箱已存在");
         }
         User user = new User();
         user.setUsername(username);
@@ -281,6 +288,9 @@ public class AdminUserServiceImpl implements AdminUserService {
         }
         if (userMapper.selectByPhoneNumber(phoneNumber) != null) {
             throw new RuntimeException("手机号已存在");
+        }
+        if (email != null && !email.isEmpty() && userMapper.selectByEmail(email) != null) {
+            throw new RuntimeException("邮箱已存在");
         }
         User user = new User();
         user.setUsername(username);
