@@ -1,0 +1,72 @@
+
+.container.data-v-a1b796e8 {
+  padding: 40rpx;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+.page-header.data-v-a1b796e8 {
+  margin-bottom: 40rpx;
+}
+.page-title.data-v-a1b796e8 {
+  font-size: 48rpx;
+  font-weight: 600;
+  color: #303133;
+}
+.loading.data-v-a1b796e8,
+.empty.data-v-a1b796e8 {
+  text-align: center;
+  padding: 120rpx 0;
+  color: #909399;
+  font-size: 28rpx;
+}
+.attendance-list.data-v-a1b796e8 {
+  height: calc(100vh - 200rpx);
+}
+.attendance-card.data-v-a1b796e8 {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 40rpx;
+  margin-bottom: 32rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
+}
+.attendance-header.data-v-a1b796e8 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32rpx;
+}
+.course-name.data-v-a1b796e8 {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #303133;
+  flex: 1;
+}
+.status-tag.data-v-a1b796e8 {
+  padding: 8rpx 24rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+}
+.status-tag.success.data-v-a1b796e8 {
+  background: #f0f9ff;
+  color: #67c23a;
+}
+.status-tag.warning.data-v-a1b796e8 {
+  background: #fdf6ec;
+  color: #e6a23c;
+}
+.attendance-info.data-v-a1b796e8 {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.info-item.data-v-a1b796e8 {
+  display: flex;
+  font-size: 28rpx;
+}
+.label.data-v-a1b796e8 {
+  color: #909399;
+  margin-right: 16rpx;
+}
+.value.data-v-a1b796e8 {
+  color: #303133;
+}

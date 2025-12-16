@@ -1,0 +1,172 @@
+
+.container.data-v-217a793d {
+  padding: 40rpx;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+.page-header.data-v-217a793d {
+  margin-bottom: 40rpx;
+}
+.page-title.data-v-217a793d {
+  font-size: 48rpx;
+  font-weight: 600;
+  color: #303133;
+}
+.loading.data-v-217a793d,
+.empty.data-v-217a793d {
+  text-align: center;
+  padding: 120rpx 0;
+  color: #909399;
+  font-size: 28rpx;
+}
+.reservations-list.data-v-217a793d {
+  height: calc(100vh - 200rpx);
+}
+.reservation-card.data-v-217a793d {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 40rpx;
+  margin-bottom: 32rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
+}
+.reservation-header.data-v-217a793d {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32rpx;
+}
+.course-name.data-v-217a793d {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #303133;
+  flex: 1;
+}
+.status-tag.data-v-217a793d {
+  padding: 8rpx 24rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+}
+.status-tag.success.data-v-217a793d {
+  background: #f0f9ff;
+  color: #67c23a;
+}
+.status-tag.warning.data-v-217a793d {
+  background: #fdf6ec;
+  color: #e6a23c;
+}
+.status-tag.info.data-v-217a793d {
+  background: #f4f4f5;
+  color: #909399;
+}
+.reservation-info.data-v-217a793d {
+  margin-bottom: 32rpx;
+}
+.info-item.data-v-217a793d {
+  display: flex;
+  margin-bottom: 16rpx;
+  font-size: 28rpx;
+}
+.info-item.data-v-217a793d:last-child {
+  margin-bottom: 0;
+}
+.label.data-v-217a793d {
+  color: #909399;
+  margin-right: 16rpx;
+}
+.value.data-v-217a793d {
+  color: #303133;
+}
+.reservation-actions.data-v-217a793d {
+  margin-top: 32rpx;
+  padding-top: 32rpx;
+  border-top: 1px solid #f0f0f0;
+}
+.cancel-button.data-v-217a793d {
+  width: 100%;
+  height: 80rpx;
+  background: #f56c6c;
+  color: #ffffff;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  border: none;
+}
+.modal.data-v-217a793d {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-content.data-v-217a793d {
+  width: 90%;
+  max-width: 600rpx;
+  background: #ffffff;
+  border-radius: 24rpx;
+  overflow: hidden;
+  max-height: 80vh;
+}
+.modal-header.data-v-217a793d {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40rpx;
+  border-bottom: 1px solid #f0f0f0;
+}
+.modal-title.data-v-217a793d {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #303133;
+}
+.close-btn.data-v-217a793d {
+  font-size: 64rpx;
+  color: #909399;
+  line-height: 1;
+}
+.modal-body.data-v-217a793d {
+  padding: 40rpx;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+.detail-item.data-v-217a793d {
+  margin-bottom: 32rpx;
+  font-size: 28rpx;
+}
+.detail-item.data-v-217a793d:last-child {
+  margin-bottom: 0;
+}
+.detail-label.data-v-217a793d {
+  color: #909399;
+  margin-right: 16rpx;
+}
+.detail-value.data-v-217a793d {
+  color: #303133;
+}
+.attendance-section.data-v-217a793d {
+  margin-top: 32rpx;
+  padding-top: 32rpx;
+  border-top: 1px solid #f0f0f0;
+}
+.modal-footer.data-v-217a793d {
+  display: flex;
+  padding: 40rpx;
+  border-top: 1px solid #f0f0f0;
+  gap: 24rpx;
+}
+.modal-button.data-v-217a793d {
+  flex: 1;
+  height: 80rpx;
+  background: #f5f7fa;
+  color: #303133;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  border: none;
+}
+.modal-button.danger.data-v-217a793d {
+  background: #f56c6c;
+  color: #ffffff;
+}

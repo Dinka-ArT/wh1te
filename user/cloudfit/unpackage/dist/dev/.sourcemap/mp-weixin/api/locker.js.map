@@ -1,0 +1,1 @@
+{"version":3,"file":"locker.js","sources":["api/locker.js"],"sourcesContent":["import request from '../utils/request.js'\r\n\r\nexport const getLockers = () => {\r\n  return request({\r\n    url: '/lockers',\r\n    method: 'GET'\r\n  })\r\n}\r\n\r\n"],"names":["request"],"mappings":";;AAEY,MAAC,aAAa,MAAM;AAC9B,SAAOA,sBAAQ;AAAA,IACb,KAAK;AAAA,IACL,QAAQ;AAAA,EACZ,CAAG;AACH;;"}

@@ -1,0 +1,85 @@
+
+.container.data-v-5006335d {
+  padding: 40rpx;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+.page-header.data-v-5006335d {
+  margin-bottom: 40rpx;
+}
+.page-title.data-v-5006335d {
+  font-size: 48rpx;
+  font-weight: 600;
+  color: #303133;
+}
+.loading.data-v-5006335d,
+.empty.data-v-5006335d {
+  text-align: center;
+  padding: 120rpx 0;
+  color: #909399;
+  font-size: 28rpx;
+}
+.lockers-list.data-v-5006335d {
+  height: calc(100vh - 200rpx);
+}
+.locker-card.data-v-5006335d {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 40rpx;
+  margin-bottom: 32rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
+}
+.locker-header.data-v-5006335d {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  margin-bottom: 32rpx;
+  padding-bottom: 24rpx;
+  border-bottom: 1px solid #f0f0f0;
+}
+.locker-icon.data-v-5006335d {
+  font-size: 64rpx;
+}
+.locker-number.data-v-5006335d {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #303133;
+}
+.locker-info.data-v-5006335d {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.info-item.data-v-5006335d {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 28rpx;
+}
+.label.data-v-5006335d {
+  color: #909399;
+}
+.value.data-v-5006335d {
+  color: #303133;
+  font-weight: 500;
+}
+.value.warning.data-v-5006335d {
+  color: #e6a23c;
+}
+.status-tag.data-v-5006335d {
+  padding: 8rpx 24rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+}
+.status-tag.success.data-v-5006335d {
+  background: #f0f9ff;
+  color: #67c23a;
+}
+.status-tag.danger.data-v-5006335d {
+  background: #fef0f0;
+  color: #f56c6c;
+}
+.status-tag.info.data-v-5006335d {
+  background: #f4f4f5;
+  color: #909399;
+}

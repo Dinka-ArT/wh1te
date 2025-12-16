@@ -1,12 +1,39 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/login/login",
+    "pages/index/index",
+    "pages/courses/courses",
+    "pages/profile/profile",
+    "pages/register/register",
+    "pages/reservations/reservations",
+    "pages/lockers/lockers",
+    "pages/attendance/attendance"
   ],
   "window": {
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "云健健身",
+    "navigationBarBackgroundColor": "#667eea",
     "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#909399",
+    "selectedColor": "#667eea",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/courses/courses",
+        "text": "课程"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
   },
   "usingComponents": {}
 }
